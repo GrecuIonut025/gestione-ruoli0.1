@@ -1,8 +1,5 @@
 package it.lavori.gestione_ruoli.controller.api;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +31,20 @@ public class UtenteController {
 	@Autowired
 	UtenteService utenteService;
 
+//	@GetMapping("/utenti/{pageNo}/{pageSize}")
+//	@ResponseStatus(value = HttpStatus.OK)
+//	public List<UtenteDto>getPaginated(@PathVariable int pageNo,@PathVariable int pagesize){
+//		return utenteService.findPaginated(pageNo, pagesize);
+//	}
+
 	@GetMapping("/utenti")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<UtenteDto> getAll() {
-		return utenteService.findAll();
+	public Page<UtenteDto> getAllFilteredByNomeAndCognome(@RequestParam(defaultValue = "") String nomeFilter,
+			                                              @RequestParam(defaultValue = "") String cognomeFilter,
+			                                              @RequestParam(defaultValue = "0") int page,
+			                                              @RequestParam(defaultValue = "30") int size) {
+		
+		return utenteService.findByFirstNameLikeAndLastNameLike(nomeFilter, cognomeFilter, page, size);
 	}
 
 //
@@ -48,7 +55,7 @@ public class UtenteController {
 		} catch (NotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-	return null;
+			return null;
 		}
 
 	}
@@ -83,10 +90,10 @@ public class UtenteController {
 		return utenteService.update(utente);
 	}
 
-	@DeleteMapping("/deleteAllUtenti")
-	public HttpStatus deleteAll(@RequestBody UtenteDto utente) {
-		utenteService.deleteAllUtenti(getAll());
-		return HttpStatus.OK;
-	}
+//	@DeleteMapping("/deleteAllUtenti")
+//	public HttpStatus deleteAll(@RequestBody UtenteDto utente) {
+//		utenteService.deleteAllUtenti(getAll());
+//		return HttpStatus.OK;
+//	}
 
 }

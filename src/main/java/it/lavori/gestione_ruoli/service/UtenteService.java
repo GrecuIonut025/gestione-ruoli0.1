@@ -1,18 +1,17 @@
 package it.lavori.gestione_ruoli.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.lavori.gestione_ruoli.dto.UtenteDto;
-import it.lavori.gestione_ruoli.model.Ruolo;
 import it.lavori.gestione_ruoli.model.Utente;
 import it.lavori.gestione_ruoli.repository.UtenteRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +24,44 @@ public class UtenteService {
 
 	@Autowired
 	private DozerBeanMapper mapper;
+	
+
 
 	public UtenteService(UtenteRepository utenteRepository) {
 		this.utenteRepository = utenteRepository;
 	}
+ 
+//	@Override
+//	 public List<UtenteDto> findPaginated(int pageNo, int pageSize){
+//		 Pageable paging=PageRequest.of(pageNo, pageSize);
+//		 List<UtenteDto> pagedResult=utenteRepository.findAll().stream()
+//				.map(e->mapper.map(e,UtenteDto.class))
+//				.collect(Collectors.toList());
+//		return pagedResult;
+//		 
+//	 }
 
-	public List<UtenteDto> findAll(){
-		return utenteRepository.findAll().stream()
-				.map(e->mapper.map(e,UtenteDto.class))
-				.collect(Collectors.toList());
+	
+	
+	
+	
+	public Page<UtenteDto> findByFirstNameLikeAndLastNameLike(String nomeFilter, String cognomeFilter, int page, int size){
+	Pageable	pageable=PageRequest.of(page, size);
+	Page<Utente> pageUtente=utenteRepository.findByFirstNameLikeAndLastNameLike(nomeFilter,cognomeFilter,pageable);
+//	mapper.map(pageUtente,Page<UtenteDto>.c);
+	Page<UtenteDto> dtoPage = pageUtente.map(e -> mapper.map(e,UtenteDto.class));
+	//	List<Utente> lista= pageUtente.getContent();
+//	List<UtenteDto> utenteDto=lista
+//				.stream()
+//				.map(e->mapper.map(e,UtenteDto.class)).collect(Collectors.toList());
+//	Page<UtenteDto>.
+		 return dtoPage;
+			
 	}
+
+
+	
+	  
 
 	public void deleteAllUtenti(List<UtenteDto> utenti) {
 		utenteRepository.deleteAll();
