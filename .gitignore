@@ -10,6 +10,14 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+<<<<<<< HEAD
+=======
+/target/
+/.classpath
+/*.project
+/.settings
+/*.springBeans
+>>>>>>> github/main
 
 # External tool builders
 .externalToolBuilders/
@@ -220,6 +228,7 @@ buildNumber.properties
 # Eclipse Core
 .project
 # JDT-specific (Eclipse Java Development Tools)
+<<<<<<< HEAD
 .classpath
 
 ### Web ###
@@ -236,3 +245,6 @@ buildNumber.properties
 *.wasm
 *.wat
 *.xhtml
+=======
+.classpath
+>>>>>>> github/main
