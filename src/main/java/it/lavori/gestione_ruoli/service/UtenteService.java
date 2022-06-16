@@ -1,7 +1,6 @@
 package it.lavori.gestione_ruoli.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
